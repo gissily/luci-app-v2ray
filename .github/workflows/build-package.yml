@@ -133,12 +133,13 @@ jobs:
         fi
         
         ls -lah
-        
+        ls -lah "${{ env.CACHE_DIR_SDK }}/$SDK_FILE"
+
         cd -
 
-        file "${{ env.CACHE_DIR_SDK }}/$SDK_FILE "
+        file "${{ env.CACHE_DIR_SDK }}/$SDK_FILE"
 
-        tar -Jxf "${{ env.CACHE_DIR_SDK }}/$SDK_FILE " -C "${{ env.SDK_HOME }}" --strip=1
+        tar -Jxf "${{ env.CACHE_DIR_SDK }}/$SDK_FILE" -C "${{ env.SDK_HOME }}" --strip=1
 
         cd "${{ env.SDK_HOME }}"
 
