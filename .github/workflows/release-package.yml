@@ -97,7 +97,7 @@ jobs:
 
     - name: Download and Unzip SDK
       run: |
-        cd "$env.CACHE_DIR_SDK"
+        cd "${{ env.CACHE_DIR_SDK }}"
 
         if ! ( wget -q -O - "$SDK_URL_PATH/sha256sums" | \
           grep -- "$SDK_NAME" > sha256sums.small 2>/dev/null ) ; then
@@ -117,11 +117,11 @@ jobs:
 
         cd -
 
-        file "$env.CACHE_DIR_SDK/$SDK_FILE"
+        file "${{ env.CACHE_DIR_SDK }}/$SDK_FILE"
 
-        tar -Jxf "$env.CACHE_DIR_SDK/$SDK_FILE" -C "$env.SDK_HOME" --strip=1
+        tar -Jxf "${{ env.CACHE_DIR_SDK }}/$SDK_FILE" -C "${{ env.SDK_HOME }}" --strip=1
 
-        cd "$env.SDK_HOME"
+        cd "${{ env.SDK_HOME }}"
 
         cp feeds.conf.default feeds.conf
 
@@ -134,13 +134,13 @@ jobs:
 
     - name: Restore OpenWrt Cache
       run: |
-        cd "$env.SDK_HOME"
+        cd "${{ env.SDK_HOME }}"
 
         test -d "dl" && rm -rf "dl" || true
         test -d "feeds" && rm -rf "feeds" || true
 
-        ln -s "$env.CACHE_DIR_DL" "dl"
-        ln -s "$env.CACHE_DIR_FEEDS" "feeds"
+        ln -s "${{ env.CACHE_DIR_DL }}" "dl"
+        ln -s "${{ env.CACHE_DIR_FEEDS }}" "feeds"
 
         staging_dir_host="staging_dir/host"
         staging_dir_target="staging_dir/target-x86_64_musl"
@@ -150,9 +150,9 @@ jobs:
         test -d "$staging_dir_target" || mkdir -p "$staging_dir_target"
         test -d "$staging_dir_toolchain" || mkdir -p "$staging_dir_toolchain"
 
-        ln -s "$env.CCACHE_DIR_HOST" "$staging_dir_host/ccache"
-        ln -s "$env.CCACHE_DIR_TARGET" "$staging_dir_target/ccache"
-        ln -s "$env.CCACHE_DIR_TOOLCHAIN" "$staging_dir_toolchain/ccache"
+        ln -s "${{ env.CCACHE_DIR_HOST }}" "$staging_dir_host/ccache"
+        ln -s "${{ env.CCACHE_DIR_TARGET }}" "$staging_dir_target/ccache"
+        ln -s "${{ env.CCACHE_DIR_TOOLCHAIN }}" "$staging_dir_toolchain/ccache"
 
         CCACHE_DIR="$staging_dir_host/ccache" staging_dir/host/bin/ccache -s
         CCACHE_DIR="$staging_dir_target/ccache" staging_dir/host/bin/ccache -s
@@ -162,7 +162,7 @@ jobs:
 
     - name: Update and Install Packages
       run: |
-        cd "$env.SDK_HOME"
+        cd "${{ env.SDK_HOME }}"
 
         cp -rf "${{ github.workspace }}/package" "package/$PACKAGE_NAME"
 
@@ -173,22 +173,22 @@ jobs:
 
     - name: Build Package
       run: |
-        cd "$env.SDK_HOME"
+        cd "${{ env.SDK_HOME }}"
 
         make defconfig
         make package/${PACKAGE_NAME}/compile V=s
 
-        find "$env.SDK_HOME/bin/" -type f -name "*.ipk" -exec ls -lh {} \;
+        find "${{ env.SDK_HOME }}/bin/" -type f -name "*.ipk" -exec ls -lh {} \;
 
         cd -
 
     - name: Copy Build Results
       run: |
         # Copy bin files
-        find "$env.SDK_HOME/bin/" -type f -name "${PACKAGE_NAME}*.ipk" -exec cp {} "${{ github.workspace }}" \;
+        find "${{ env.SDK_HOME }}/bin/" -type f -name "${PACKAGE_NAME}*.ipk" -exec cp {} "${{ github.workspace }}" \;
 
         # Copy translations
-        find "$env.SDK_HOME/bin/" -type f -name "luci-i18n*.ipk" -exec cp {} "${{ github.workspace }}" \;
+        find "${{ env.SDK_HOME }}/bin/" -type f -name "luci-i18n*.ipk" -exec cp {} "${{ github.workspace }}" \;
 
         find "${{ github.workspace }}" -type f -name "*.ipk" -exec ls -lh {} \;
 
