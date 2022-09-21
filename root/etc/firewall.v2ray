@@ -4,4 +4,8 @@
 # Licensed to the public under the MIT License.
 #
 
-test -s "/etc/init.d/v2ray" && /etc/init.d/v2ray reload
+ubus list network.interface.lan >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+    test -s "/etc/init.d/v2ray" && /etc/init.d/v2ray reload
+fi
+
