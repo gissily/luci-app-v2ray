@@ -28,7 +28,7 @@ jobs:
         node-version: '12.x'
 
     - name: Setup Node.js Cache
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: node_modules
         key: node-${{ env.PACKAGE_NAME }}-${{ hashFiles('yarn.lock') }}
@@ -45,7 +45,7 @@ jobs:
       run: echo "::set-output name=timestamp::$(date +"%s")"
 
     - name: Setup OpenWrt Cache
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: ${{ env.CACHE_DIR }}
         key: openwrt-${{ env.PACKAGE_NAME }}-${{ steps.cache_key.outputs.timestamp }}
