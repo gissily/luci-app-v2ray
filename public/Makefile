@@ -13,7 +13,8 @@ PKG_LICENSE:=#{license}
 PKG_MAINTAINER:=#{author}
 
 LUCI_TITLE:=#{description}
-LUCI_DEPENDS:=+jshn +ip +ipset +iptables-nft +kmod-nft-tproxy +resolveip +dnsmasq-full
+LUCI_DEPENDS:=+jshn +ip +ipset +iptables +iptables-mod-tproxy +resolveip \
+	+dnsmasq-full
 LUCI_PKGARCH:=all
 
 define Package/$(PKG_NAME)/conffiles
