@@ -100,7 +100,7 @@ return L.view.extend<SectionItem[][]>({
       )
     );
     o.datatype = "directory";
-    o.placeholder = "/usr/bin";
+    o.placeholder = "/usr/local/share/v2ray";
 
     o = s.option(
       form.Value,
