@@ -96,11 +96,11 @@ return L.view.extend<SectionItem[][]>({
       "asset_location",
       _("V2Ray asset location"),
       _(
-        "Directory where geoip.dat and geosite.dat files are, default: same directory as V2Ray file."
+        "Directory where geoip.dat and geosite.dat files are, default: /usr/local/share/."
       )
     );
     o.datatype = "directory";
-    o.placeholder = "/usr/local/share/v2ray";
+    o.placeholder = "/usr/local/share/";
 
     o = s.option(
       form.Value,
