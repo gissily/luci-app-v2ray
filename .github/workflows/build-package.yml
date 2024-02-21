@@ -19,18 +19,18 @@ jobs:
       CONFIG_CCACHE: y
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         persist-credentials: false
         fetch-depth: 2
 
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: '16'
 
     - name: Setup Node.js Cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: node_modules
         key: node-${{ env.PACKAGE_NAME }}-${{ hashFiles('yarn.lock') }}
@@ -62,7 +62,7 @@ jobs:
       run: echo "timestamp=$(date +"%s")" >> $GITHUB_OUTPUT
 
     - name: Setup OpenWrt Cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ env.CACHE_DIR }}
         key: openwrt-${{ env.PACKAGE_NAME }}-${{ steps.cache_key.outputs.timestamp }}
@@ -210,7 +210,7 @@ jobs:
         find "${{ github.workspace }}" -type f -name "*.ipk" -exec ls -lh {} \;
 
     - name: Update Archives
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ env.PACKAGE_NAME }}
         path: '*.ipk'
